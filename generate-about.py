@@ -36,7 +36,7 @@ def main():
     recipes = parse_recipe_files(directory)
     sorted_recipes = sorted(recipes, key=lambda x: x[1].lower())
     for filename, title in sorted_recipes:
-            print(f"- [{title}](/posts/{filename})")
+            print(f"[{title}](/posts/{filename}) \\")
 
 if __name__ == "__main__":
     main()
