@@ -8,3 +8,4 @@ curl --proto "=https" --tlsv1.2 -sSf \
   https://fullyveganrecipes.com/api/download/all.tar.xz > "$ARCHIVE_PATH"
 
 tar --verbose -xf "$ARCHIVE_PATH"
+rm "$ARCHIVE_PATH"
