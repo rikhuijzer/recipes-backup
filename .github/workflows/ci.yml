@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - run: ./backup.sh
+      - run: ./backup-and-update-about.sh
         env:
           FX_PASSWORD: ${{ secrets.FX_PASSWORD }}
       - if: github.event_name != 'pull_request'

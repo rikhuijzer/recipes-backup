@@ -1,5 +1,6 @@
 import os
 import re
+import math
 
 def parse_recipe_files(directory):
     """
@@ -32,11 +33,20 @@ def parse_recipe_files(directory):
     return recipes
 
 def main():
-    directory = "posts/."  # current working directory
+    directory = "posts/."
     recipes = parse_recipe_files(directory)
     sorted_recipes = sorted(recipes, key=lambda x: x[1].lower())
-    for filename, title in sorted_recipes:
-            print(f"[{title}](/posts/{filename}) \\")
+    halfway_index = (len(recipes) - 1) // 2
+
+    print("<div style='text-align: center; font-size: 1.1rem;'>")
+    print("<div style='display: inline-block;'>")
+    for i, (filename, title) in enumerate(sorted_recipes):
+            print(f"  <a href='/posts/{filename}'>{title}</a><br>")
+            if i == halfway_index:
+                print("</div>")
+                print("<div style='display: inline-block; vertical-align: top;'>")
+    print("</div>")
+    print("</div>")
 
 if __name__ == "__main__":
     main()
