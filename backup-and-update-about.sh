@@ -5,7 +5,7 @@ ARCHIVE_PATH="all.tar.xz"
 
 DOMAIN="fullyveganrecipes.com"
 
-curl \
+curl -sSf \
   -H "Authorization: Bearer $FX_PASSWORD" \
   https://$DOMAIN/api/download/all.tar.xz > "$ARCHIVE_PATH"
 
@@ -14,10 +14,7 @@ rm "$ARCHIVE_PATH"
 
 ABOUT="$(python3 generate-about.py)"
 
-echo "ABOUT:"
-echo "$ABOUT"
-
-curl \
+curl -sSf \
   -X PUT \
   -H "Authorization: Bearer $FX_PASSWORD" \
   https://$DOMAIN/api/settings/about \
