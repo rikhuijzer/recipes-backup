@@ -11,7 +11,7 @@ jobs:
   backup:
     permissions:
       contents: write
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - run: ./backup-and-update-about.sh
