@@ -1,17 +1,18 @@
-name: ci
+name: backup
 on:
   schedule:
-    - cron: '23 0 * * *'
+    - cron: '24 0 * * *'
   push:
     branches:
       - main
   pull_request:
   workflow_dispatch:
 jobs:
-  backup:
+  run:
     permissions:
       contents: write
     runs-on: ubuntu-24.04
+    concurrency: backup
     steps:
       - uses: actions/checkout@v4
       - run: ./backup-and-update-about.sh
