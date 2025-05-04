@@ -1,4 +1,6 @@
 name: backup
+concurrency:
+  group: ${{ github.workflow }}
 on:
   schedule:
     - cron: '24 0 * * *'
@@ -12,19 +14,19 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-24.04
-    concurrency: backup
     steps:
-      - uses: actions/checkout@v4
-      - run: ./backup-and-update-about.sh
+        # `actions/checkout` seems to occur concurrently even when concurrency
+        # group is set https://github.com/actions/checkout/discussions/1125.
+      - run: >
+          git clone --depth=1
+          https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          .
+      - run: ./backup.sh cleanup
+      - run: ./backup.sh download
         env:
           FX_PASSWORD: ${{ secrets.FX_PASSWORD }}
       - if: github.event_name != 'pull_request'
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git config --global user.email "$GITHUB_ACTOR@users.noreply.github.com"
-            git config --global user.name "$GITHUB_ACTOR"
-
-            git add .
-            git commit -m '[bot] backup'
-            git push
-          fi
+        run: ./backup.sh commit
+      - run: ./backup.sh update-about
+        env:
+          FX_PASSWORD: ${{ secrets.FX_PASSWORD }}
